@@ -1,0 +1,52 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Contactos",
+						"type": "DatasetReference"
+					},
+					"name": "CRM"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Contactos",
+						"type": "DatasetReference"
+					},
+					"name": "ContactsUPDATE"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ControlPERMITIR"
+				},
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     query: '<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\" >\\n  <entity name=\"contact\">\\n    <attribute name=\"contactid\" />\\n    <order attribute=\"fullname\" descending=\"false\" />\\n    <filter type=\"and\">\\n      <condition attribute=\"axz_donotallowcontrol\" operator=\"null\" />\\n       <condition attribute=\"contactid\" operator=\"eq\" value=\"00000000-0000-0000-0000-00033d725da3\" />\\n    </filter>\\n  </entity>\\n</fetch>') ~> CRM",
+				"CRM derive(permitir = toBoolean(\"false\")) ~> ControlPERMITIR",
+				"ControlPERMITIR alterRow(updateIf(isBoolean(\"false\"))) ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          axz_donotallowcontrol = permitir",
+				"     )) ~> ContactsUPDATE"
+			]
+		}
+	}
+}

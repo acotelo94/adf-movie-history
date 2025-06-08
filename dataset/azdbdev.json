@@ -1,0 +1,42 @@
+{
+	"name": "azdbdev",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZDB_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Clinic.pdw_id_clinic",
+				"type": "nvarchar"
+			},
+			{
+				"name": "contactid",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "pdw_goldencontactid",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "pdw_goldencontactidname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "pdw_goldencontactidyominame",
+				"type": "nvarchar"
+			},
+			{
+				"name": "pdw_patientid",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "PK_Daily_FT_ITX_Audits"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

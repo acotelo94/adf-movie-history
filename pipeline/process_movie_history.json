@@ -1,0 +1,77 @@
+{
+	"name": "process_movie_history",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ingest",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest_movie_history_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"environment": {
+							"value": "@pipeline().parameters.environment",
+							"type": "Expression"
+						},
+						"file_date": {
+							"value": "@pipeline().parameters.file_date",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Transform",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Transform_movie_history_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"file_date": {
+							"value": "@pipeline().parameters.file_date",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"environment": {
+				"type": "string",
+				"defaultValue": "production"
+			},
+			"file_date": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Curso_DATABRICKS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-06-07T18:45:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

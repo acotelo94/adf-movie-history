@@ -1,0 +1,586 @@
+{
+	"name": "DIM_POLIZA_VIDA",
+	"properties": {
+		"activities": [
+			{
+				"name": "DIM_POLIZA_VIDA",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT *\r\n  FROM [RGA_PoC].[dbo].[vw_DW_TB_DIM_Póliza_Vida]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Id_Póliza",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Id_Póliza",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Num_Póliza",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Num_Póliza",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Cod_Producto_Técnico",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Cod_Producto_Técnico",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Num_Certificado",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Num_Certificado",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Num_Préstamo",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Num_Préstamo",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Fecha_Efecto",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "Fecha_Efecto",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "Fecha_Vencimiento",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "Fecha_Vencimiento",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "Tipo_Incremento",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Tipo_Incremento",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Forma_Pago",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Forma_Pago",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Incremento",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Incremento",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Descuento_Tarifa",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Descuento_Tarifa",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Descuento_OM",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Descuento_OM",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Duración_Años_Extraprimas",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Duración_Años_Extraprimas",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Tabla_Mortalidad_Segundo_Beneficiario",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Tabla_Mortalidad_Segundo_Beneficiario",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Num_Embargo_Pignoración",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Num_Embargo_Pignoración",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Tipo_Embargo_Pignoración",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Tipo_Embargo_Pignoración",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Descuento_Colectivo",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Descuento_Colectivo",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Incremento_Salarial_Activos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Incremento_Salarial_Activos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Incremento_Salarial_Pasivos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Incremento_Salarial_Pasivos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Incremento_Seguridad_Social_Activos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Incremento_Seguridad_Social_Activos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Incremento_Seguridad_Social_Pasivos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Incremento_Seguridad_Social_Pasivos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Incremento_IPC_Pasivos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Incremento_IPC_Pasivos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Porcentaje_Incremento_IPC_Activos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Porcentaje_Incremento_IPC_Activos",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Indicador_Pensiones",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Indicador_Pensiones",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Fondo_Plan",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Fondo_Plan",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Cod_Cuenta_Cliente",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Cod_Cuenta_Cliente",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Indicador_Inversion_Casada",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Indicador_Inversion_Casada",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Num_Póliza_Grupo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Num_Póliza_Grupo",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Origen_Emision",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Origen_Emision",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Importe_Calendario",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								},
+								"sink": {
+									"name": "Importe_Calendario",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 15
+								}
+							},
+							{
+								"source": {
+									"name": "Num_Participe",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Num_Participe",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Cod_Producto_Comercial",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Cod_Producto_Comercial",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Duracion_Años",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Duracion_Años",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Duracion_Prima",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Duracion_Prima",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Duracion_PU",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Duracion_PU",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Fecha_Renovacion",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "Fecha_Renovacion",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "Fecha_Solicitud",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "Fecha_Solicitud",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "Cod_Cuenta_SEPA",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Cod_Cuenta_SEPA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Ind_Tarifa_Plana",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Ind_Tarifa_Plana",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Codigo_Producto",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Codigo_Producto",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SQL_DIM_FECHA",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_DIM_POLIZA_VIDA",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "PoC_RGA_ADF/InitialLoad"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-07-18T16:21:12Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

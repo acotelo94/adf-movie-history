@@ -1,0 +1,39 @@
+{
+	"name": "7-Lookup",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Clientes"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Servicios"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sinkCliente"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Lookup"
+				}
+			],
+			"script": "source(output(\n\t\tCodCliente as short,\n\t\tCliente as string,\n\t\tApePatern as string,\n\t\tFechaNaci as string,\n\t\tDNI as integer,\n\t\tIdServicio as short\n\t),\n\tuseSchema: false,\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '7.Lookup',\n\tfileName: 'Cliente.csv',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true) ~> Clientes\nsource(output(\n\t\tIdServicio as short,\n\t\tServicio as string,\n\t\tFecha as date 'dd/MM/yyyy',\n\t\tMontoPagar as short\n\t),\n\tuseSchema: false,\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '7.Lookup',\n\tfileName: 'Servicios.csv',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true) ~> Servicios\nClientes, Servicios lookup(Clientes@IdServicio == Servicios@IdServicio,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup\nLookup sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '7.Lookup',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['ClienteLookup.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sinkCliente"
+		}
+	}
+}

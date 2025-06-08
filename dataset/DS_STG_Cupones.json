@@ -1,0 +1,50 @@
+{
+	"name": "DS_STG_Cupones",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LKS_STG_Dynamics",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "plvd_apellido1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "plvd_codigopostalid",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "plvd_codigopostalidname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "plvd_cuponid",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "plvd_cuponname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "plvd_emailorigen",
+				"type": "nvarchar"
+			},
+			{
+				"name": "plvd_idprofile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "plvd_name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "STG_Cupones"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

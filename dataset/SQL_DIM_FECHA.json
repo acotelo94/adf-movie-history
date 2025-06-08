@@ -1,0 +1,57 @@
+{
+	"name": "SQL_DIM_FECHA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Id_Fecha",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fecha",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Día",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Nombre_Día",
+				"type": "char"
+			},
+			{
+				"name": "Semana",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Mes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Nombre_Mes",
+				"type": "char"
+			},
+			{
+				"name": "Año",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DW_TB_DIM_TIPO_TRANSACCION_PRODUCCION_VIDA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

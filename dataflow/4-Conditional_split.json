@@ -1,0 +1,53 @@
+{
+	"name": "4-Conditional_split",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_AZSQL_AdventureWorks2",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Products"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Rojo"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Negro"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Azul"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Otros"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Color"
+				}
+			],
+			"script": "source(output(\n\t\tProductID as integer,\n\t\tName as string,\n\t\tProductNumber as string,\n\t\tColor as string,\n\t\tStandardCost as decimal(19,4),\n\t\tListPrice as decimal(19,4),\n\t\tSize as string,\n\t\tWeight as decimal(8,2),\n\t\tProductCategoryID as integer,\n\t\tProductModelID as integer,\n\t\tSellStartDate as timestamp,\n\t\tSellEndDate as timestamp,\n\t\tDiscontinuedDate as timestamp,\n\t\tThumbNailPhoto as binary,\n\t\tThumbnailPhotoFileName as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tstore: 'sqlserver',\n\tschemaName: 'SalesLT',\n\ttableName: 'Product',\n\tisolationLevel: 'READ_UNCOMMITTED') ~> Products\nProducts split(Color==\"Red\",\n\tColor==\"Black\",\n\tColor==\"Blue\",\n\tdisjoint: false) ~> Color@(Red, Black, Blue, Otros)\nColor@Red sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '4.Conditional_split',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['Red.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tProductID,\n\t\tName,\n\t\tProductNumber,\n\t\tColor,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tSize,\n\t\tWeight,\n\t\tProductCategoryID,\n\t\tProductModelID,\n\t\tSellStartDate,\n\t\tSellEndDate,\n\t\tDiscontinuedDate\n\t),\n\tpartitionBy('hash', 1)) ~> Rojo\nColor@Black sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '4.Conditional_split',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['Black.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tProductID,\n\t\tName,\n\t\tProductNumber,\n\t\tColor,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tSize,\n\t\tWeight,\n\t\tProductCategoryID,\n\t\tProductModelID,\n\t\tSellStartDate,\n\t\tSellEndDate,\n\t\tDiscontinuedDate\n\t),\n\tpartitionBy('hash', 1)) ~> Negro\nColor@Blue sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '4.Conditional_split',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['Blue.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tProductID,\n\t\tName,\n\t\tProductNumber,\n\t\tColor,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tSize,\n\t\tWeight,\n\t\tProductCategoryID,\n\t\tProductModelID,\n\t\tSellStartDate,\n\t\tSellEndDate,\n\t\tDiscontinuedDate\n\t),\n\tpartitionBy('hash', 1)) ~> Azul\nColor@Otros sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '4.Conditional_split',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['Other.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tProductID,\n\t\tName,\n\t\tProductNumber,\n\t\tColor,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tSize,\n\t\tWeight,\n\t\tProductCategoryID,\n\t\tProductModelID,\n\t\tSellStartDate,\n\t\tSellEndDate,\n\t\tDiscontinuedDate\n\t),\n\tpartitionBy('hash', 1)) ~> Otros"
+		}
+	}
+}

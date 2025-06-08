@@ -1,0 +1,19 @@
+{
+	"name": "Email_analytics_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZDLS_azdl1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "csv",
+				"fileSystem": "emailing-analytics"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

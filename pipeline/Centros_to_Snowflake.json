@@ -1,0 +1,83 @@
+{
+	"name": "Centros_to_Snowflake",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "CommonDataServiceForAppsSource",
+						"query": "<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\">\r\n  <entity name=\"axz_centros\">\r\n    <attribute name=\"axz_centrosid\" />\r\n    <attribute name=\"axz_name\" />\r\n    <order attribute=\"axz_name\" descending=\"false\" />\r\n  </entity>\r\n</fetch>"
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "Adftempstg",
+							"type": "LinkedServiceReference"
+						},
+						"path": "snowflake-temp/temp3.csv"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "axz_centrosid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "CENTROID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "axz_name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NOMBRECENTRO",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Centros",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Snowflake_CentrosCRM",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "CIRSA"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-05-28T07:51:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

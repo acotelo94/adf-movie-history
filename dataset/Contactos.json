@@ -1,0 +1,16 @@
+{
+	"name": "Contactos",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "VitaldentPRO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "contact"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

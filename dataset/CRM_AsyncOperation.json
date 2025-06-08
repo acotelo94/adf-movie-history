@@ -1,0 +1,16 @@
+{
+	"name": "CRM_AsyncOperation",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "VitaldentPRO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "asyncoperation"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

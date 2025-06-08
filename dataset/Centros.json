@@ -1,0 +1,16 @@
+{
+	"name": "Centros",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Axazure_demos",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "axz_centros"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

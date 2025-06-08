@@ -1,0 +1,49 @@
+{
+	"name": "6-Union",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "MovieData1"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "MovieData2"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "MovieData3"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "MovieDataUnion"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "Union2"
+				}
+			],
+			"script": "source(output(\n\t\timdb_title_id as string,\n\t\ttitle as string,\n\t\tyear as integer,\n\t\tdate_published as string,\n\t\tgenre as string,\n\t\tduration as integer,\n\t\tcountry as string\n\t),\n\tuseSchema: false,\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '6.Union',\n\tfileName: 'DataSetMovie1.csv',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true) ~> MovieData1\nsource(output(\n\t\t{_col0_} as string,\n\t\t{_col1_} as string,\n\t\t{_col2_} as integer,\n\t\t{_col3_} as string,\n\t\t{_col4_} as string,\n\t\t{_col5_} as integer,\n\t\t{_col6_} as string\n\t),\n\tuseSchema: false,\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '6.Union',\n\tfileName: 'DataSetMovie2.csv',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: false) ~> MovieData2\nsource(output(\n\t\tyear as integer,\n\t\tdate_published as string,\n\t\tgenre as string,\n\t\tduration as integer '000',\n\t\tcountry as string,\n\t\timdb_title_id as string,\n\t\ttitle as string\n\t),\n\tuseSchema: false,\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '6.Union',\n\tfileName: 'DataSetMovie3.csv',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true) ~> MovieData3\nMovieData1, MovieData2 union(byName: false)~> Union1\nUnion1, MovieData3 union(byName: true)~> Union2\nUnion2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '6.Union',\n\tcolumnDelimiter: ';',\n\tescapeChar: '\\\\',\n\tquoteChar: '',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['Union.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> MovieDataUnion"
+		}
+	}
+}

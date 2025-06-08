@@ -1,0 +1,196 @@
+{
+	"name": "HCH_Transaccion_Produccion_Vida",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "rgapocdatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id_Fecha",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Fecha_Efecto",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Tipo_Transacción",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Póliza",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Asegurado",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Tomador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Mediador_Gestor",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Producto",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Mediador_Préstamo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Recibo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Id_Aportacion",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Importe_Prima_Comercial",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Comisión_Mediador",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Descuento_OM",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Prima_Neta",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Impuestos",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Impuestos_CLEA",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Impuestos_Arbitrio",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Id_Ciclo_ETC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Importe_Capital",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Capital_Final",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Impuestos_Consorcio",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Impuestos_IPS",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Extraprima_Sobreprima",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Total_Recibo",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Descuento_Directo",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Prima_Descontada",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Num_Orden_Movimiento",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Porcentaje_Comisión_Mediador",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Num_Suplemento",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Importe_Prima_Total",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Importe_Comision_Transferencia",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "stg",
+			"table": "DW_TB_HCH_Transacción_Producción_Vida"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

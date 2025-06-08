@@ -1,0 +1,36 @@
+{
+	"name": "FicherosSynapse",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZDLS_azdl1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "synapse"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "868",
+				"type": "String"
+			},
+			{
+				"name": "-19",
+				"type": "String"
+			},
+			{
+				"name": "638697075340000000",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DS_Watermark",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LKS_STG_Dynamics",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "PoC_Dynamics"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Watermark"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

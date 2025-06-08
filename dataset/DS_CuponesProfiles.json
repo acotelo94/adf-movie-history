@@ -1,0 +1,16 @@
+{
+	"name": "DS_CuponesProfiles",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LKS_Dynamics_EAE_PRE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DynamicsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "plvd_cupon"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

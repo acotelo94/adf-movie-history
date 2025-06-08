@@ -1,0 +1,41 @@
+{
+	"name": "ParquetFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZDLS_azdl1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"PathName": {
+				"type": "string"
+			},
+			"FileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('Salida/',dataset().PathName)",
+					"type": "Expression"
+				},
+				"fileSystem": "parquet-files"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "Date",
+				"type": "DATE"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

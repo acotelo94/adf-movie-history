@@ -1,0 +1,47 @@
+{
+	"name": "STG_TIPO_TRANSACCION",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "rgapocdatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id_Tipo_Transacción",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cod_Tipo_Transacción",
+				"type": "varchar"
+			},
+			{
+				"name": "Tipo_Transacción",
+				"type": "varchar"
+			},
+			{
+				"name": "Cod_Subtipo_Transacción",
+				"type": "varchar"
+			},
+			{
+				"name": "Subtipo_Transacción",
+				"type": "varchar"
+			},
+			{
+				"name": "Cod_Subtipo_Transacción2",
+				"type": "varchar"
+			},
+			{
+				"name": "Subtipo_Transacción2",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "stg",
+			"table": "DW_TB_DIM_Tipo_Transacción_Producción_Vida"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

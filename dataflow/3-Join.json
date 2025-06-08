@@ -1,0 +1,69 @@
+{
+	"name": "3-Join",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "srcProductos"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "srcSubCategorias"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "ProductoInnerJoin"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "ProductoLeftJoin"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "RightJoin"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "FullJoinProduct"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join"
+				},
+				{
+					"name": "LeftOuterJoin"
+				},
+				{
+					"name": "RightOuterJoin"
+				},
+				{
+					"name": "FullJoin"
+				}
+			],
+			"script": "source(output(\n\t\tProductoId as short,\n\t\tNombreProducto as string,\n\t\tProductoSubCategoriaId as short,\n\t\tDescripcion as string,\n\t\tCategoria as string,\n\t\tColor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'excel',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '3.Join',\n\tfileName: 'Producto.xlsx',\n\tsheetName: 'Producto',\n\tfirstRowAsHeader: true) ~> srcProductos\nsource(output(\n\t\tSubCategoriaProductoId as short,\n\t\tNombreSubCategoria as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'excel',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '3.Join',\n\tfileName: 'SubCategoriaProducto.xlsx',\n\tsheetName: 'SubCategoriaProducto',\n\tfirstRowAsHeader: true) ~> srcSubCategorias\nsrcProductos, srcSubCategorias join(ProductoSubCategoriaId == SubCategoriaProductoId,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nsrcProductos, srcSubCategorias join(ProductoSubCategoriaId == SubCategoriaProductoId,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> LeftOuterJoin\nsrcProductos, srcSubCategorias join(ProductoSubCategoriaId == SubCategoriaProductoId,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> RightOuterJoin\nsrcProductos, srcSubCategorias join(ProductoSubCategoriaId == SubCategoriaProductoId,\n\tjoinType:'outer',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> FullJoin\nJoin sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '3.Join',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['ProductInnerJoin.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> ProductoInnerJoin\nLeftOuterJoin sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '3.Join',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['ProductLeftJoin.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> ProductoLeftJoin\nRightOuterJoin sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '3.Join',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['ProductRightJoin.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> RightJoin\nFullJoin sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '3.Join',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['FullJoin.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> FullJoinProduct"
+		}
+	}
+}

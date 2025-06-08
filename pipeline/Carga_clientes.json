@@ -1,0 +1,118 @@
+{
+	"name": "Carga_clientes",
+	"properties": {
+		"activities": [
+			{
+				"name": "Clientes_to_CRM",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SnowflakeV2Source",
+						"query": "WITH aux01 AS (\nselect top 5 *,\n'Centro1' as Centro\nfrom POC_RGA.PUBLIC.CLIENTESV2 C\n)\n\nselect Aux.*,Centros.centroid as axz_centro from aux01 Aux\nLEFT JOIN POC_RGA.PUBLIC.CENTROSDYNAMICS Centros ON Aux.Centro=Centros.NOMBRECENTRO\n",
+						"exportSettings": {
+							"type": "SnowflakeExportCopyCommand"
+						}
+					},
+					"sink": {
+						"type": "CommonDataServiceForAppsSink",
+						"writeBatchSize": 10,
+						"writeBehavior": "upsert",
+						"ignoreNullValues": false,
+						"alternateKeyName": "axz_idcliente",
+						"bypassPowerAutomateFlows": false
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "Adftempstg",
+							"type": "LinkedServiceReference"
+						},
+						"path": "snowflake-temp/temp01.csv"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CLIENTEID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "axz_idcliente",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NOMBRE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "axz_nombre",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "EMAIL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "axz_emailaddress",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "TELEFONO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "axz_phonenumber",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "AXZ_CENTRO",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "axz_centro",
+									"type": "Guid"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Snowflake_Clientes",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Clientes_CALAF",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "CIRSA"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-05-28T08:20:11Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

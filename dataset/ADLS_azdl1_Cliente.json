@@ -1,0 +1,59 @@
+{
+	"name": "ADLS_azdl1_Cliente",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServices_ADLS_azdl1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "2. Move and transform activities"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Cliente.xlsx",
+				"folderPath": "1. Move and transform activities",
+				"fileSystem": "dataset"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Nombre Empresa",
+				"type": "String"
+			},
+			{
+				"name": "Nombre cliente",
+				"type": "String"
+			},
+			{
+				"name": "Tipo Cliente",
+				"type": "String"
+			},
+			{
+				"name": "Linea",
+				"type": "String"
+			},
+			{
+				"name": "Nro Celular",
+				"type": "String"
+			},
+			{
+				"name": "Monto",
+				"type": "String"
+			},
+			{
+				"name": "Fecha Contratacion",
+				"type": "String"
+			},
+			{
+				"name": "Tipo Servicio",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

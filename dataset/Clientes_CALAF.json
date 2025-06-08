@@ -1,0 +1,16 @@
+{
+	"name": "Clientes_CALAF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Axazure_demos",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "axz_clientecalaf"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

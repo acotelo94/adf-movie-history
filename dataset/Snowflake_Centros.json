@@ -1,0 +1,28 @@
+{
+	"name": "Snowflake_Centros",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake_Trial",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [
+			{
+				"name": "IDCENTRO",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "NOMBRE",
+				"type": "VARCHAR"
+			}
+		],
+		"typeProperties": {
+			"schema": "PUBLIC",
+			"table": "CENTROS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

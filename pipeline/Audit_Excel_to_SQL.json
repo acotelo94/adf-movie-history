@@ -1,0 +1,605 @@
+{
+	"name": "Audit_Excel_to_SQL",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Excel files",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "PkDailyFT_ITX_Audit",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": "*",
+							"path": "Pending"
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
+			},
+			{
+				"name": "For_each_file",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Excel files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Excel files').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ExcelSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "Audit number",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Audit number",
+												"type": "Int32",
+												"physicalType": "int"
+											}
+										},
+										{
+											"source": {
+												"name": "Allocation Date \n(dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Allocation Date  (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Audit Status",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Audit Status",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Country",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Country",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Factory ID",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Factory ID",
+												"type": "Int32",
+												"physicalType": "int"
+											}
+										},
+										{
+											"source": {
+												"name": "Location ID",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Location ID",
+												"type": "Int32",
+												"physicalType": "int"
+											}
+										},
+										{
+											"source": {
+												"name": "Supplier/Factory Name",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Supplier/Factory Name",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Contact Date (Kick-off email) (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Contact Date (Kick-off email) (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sampling Lab",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sampling Lab",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sample Type",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sample Type",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sampling Date\n(dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sampling Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sampling Start Time\n(HH:MM)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sampling Start Time (HH:MM)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sampling End Time\n(HH:MM)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sampling End Time (HH:MM)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sample Shipment Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sample Shipment Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Received Lab",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Received Lab",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sample Received Date\n(dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sample Received Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Sample Holding Time\n(Day)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sample Holding Time (Day)",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 0,
+												"precision": 18
+											}
+										},
+										{
+											"source": {
+												"name": "Sample Temperature (oC)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Sample Temperature (oC)",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 0,
+												"precision": 18
+											}
+										},
+										{
+											"source": {
+												"name": "Testing Lab",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Testing Lab",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Parameter",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Parameter",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Result ",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Result ",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Result  Unit",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Result  Unit",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Test Status",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Test Status",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Test Start Date\n(dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Test Start Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Test End Date\n(dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Test End Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Testing Period\n(Day)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Testing Period (Day)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "ZDHC Performance Requirement",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "ZDHC Performance Requirement",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Report Number",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Report Number",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Reporting Lab",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Reporting Lab",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Wastewater Report GTW 2.1 (Water Analysis Questionnaire) Issuing Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Wastewater Report GTW 2.1 (Water Analysis Questionnaire) Issuing Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Lab Report Issuing Date\n(dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Lab Report Issuing Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Total No. of Days\n(Day)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Total No. of Days (Day)",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 0,
+												"precision": 18
+											}
+										},
+										{
+											"source": {
+												"name": "ZDHC Gateway Report Issuing Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "ZDHC Gateway Report Issuing Date (dd/mm/yyyy)",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Remarks",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Remarks",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "PkDailyFT_ITX_Audit",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@item().Name",
+											"type": "Expression"
+										},
+										"path": "Pending"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "azdbdev",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Move_files_to_Processed",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "For_each_file",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ExcelSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "Pending",
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "PkDailyFT_ITX_Audit",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": "*",
+							"path": "Pending"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "PkDailyFT_ITX_Audit_Processed",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "SGS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-11-28T15:00:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

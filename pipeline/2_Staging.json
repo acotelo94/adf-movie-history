@@ -1,0 +1,139 @@
+{
+	"name": "2_Staging",
+	"properties": {
+		"activities": [
+			{
+				"name": "Cupones_to_STG",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AvroSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "plvd_apellido1",
+									"physicalType": "string | null"
+								},
+								"sink": {
+									"name": "plvd_apellido1",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_codigopostalid",
+									"physicalType": "string | null"
+								},
+								"sink": {
+									"name": "plvd_codigopostalid",
+									"type": "Guid",
+									"physicalType": "uniqueidentifier"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_cuponid",
+									"physicalType": "string | null"
+								},
+								"sink": {
+									"name": "plvd_cuponid",
+									"type": "Guid",
+									"physicalType": "uniqueidentifier"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_cuponname",
+									"physicalType": "string | null"
+								},
+								"sink": {
+									"name": "plvd_cuponname",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_emailorigen",
+									"physicalType": "string | null"
+								},
+								"sink": {
+									"name": "plvd_emailorigen",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_idprofile",
+									"physicalType": "string | null"
+								},
+								"sink": {
+									"name": "plvd_idprofile",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_name",
+									"physicalType": "string | null"
+								},
+								"sink": {
+									"name": "plvd_name",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Avro_Cupones",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_STG_Cupones",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "Poc_Dynamics"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-19T20:21:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

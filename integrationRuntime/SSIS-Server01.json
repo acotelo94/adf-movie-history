@@ -1,0 +1,6 @@
+{
+	"name": "SSIS-Server01",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

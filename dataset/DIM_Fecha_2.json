@@ -1,0 +1,57 @@
+{
+	"name": "DIM_Fecha_2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZDB_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id_Fecha",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fecha",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Día",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Nombre_Día",
+				"type": "char"
+			},
+			{
+				"name": "Semana",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Mes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Nombre_Mes",
+				"type": "char"
+			},
+			{
+				"name": "Año",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DW_TB_DIM_Fecha"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

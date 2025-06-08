@@ -1,0 +1,159 @@
+{
+	"name": "TEST_UpdateParquet",
+	"properties": {
+		"activities": [
+			{
+				"name": "FileName",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "FileNameDateTime",
+					"value": {
+						"value": "@pipeline().parameters.Entity",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Save DateTime file",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "FileName",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"additionalColumns": [
+							{
+								"name": "NewDateTime",
+								"value": {
+									"value": "@pipeline().parameters.DateTime",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "@concat('Salida/',pipeline().parameters.Entity)",
+								"type": "Expression"
+							},
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "NewDateTime",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Date",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ParquetFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"PathName": {
+								"value": "@pipeline().parameters.Entity",
+								"type": "Expression"
+							},
+							"FileName": {
+								"value": "@variables('Testa')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ParquetFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"PathName": {
+								"value": "@pipeline().parameters.Entity",
+								"type": "Expression"
+							},
+							"FileName": {
+								"value": "@concat(pipeline().parameters.Entity,'.parquet')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"Entity": {
+				"type": "string"
+			},
+			"DateTime": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"FileNameDateTime": {
+				"type": "String"
+			},
+			"FileNameParquet": {
+				"type": "String"
+			},
+			"Testa": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Parquet"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-13T07:21:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

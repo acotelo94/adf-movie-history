@@ -1,0 +1,35 @@
+{
+	"name": "2-New_branch",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_AZSQL_AdventureWorks2",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Product"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "CSV"
+				},
+				{
+					"linkedService": {
+						"referenceName": "LKS_Stge1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "JSON"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tProductID as integer,\n\t\tName as string,\n\t\tProductNumber as string,\n\t\tColor as string,\n\t\tStandardCost as decimal(19,4),\n\t\tListPrice as decimal(19,4),\n\t\tSize as string,\n\t\tWeight as decimal(8,2),\n\t\tProductCategoryID as integer,\n\t\tProductModelID as integer,\n\t\tSellStartDate as timestamp,\n\t\tSellEndDate as timestamp,\n\t\tDiscontinuedDate as timestamp,\n\t\tThumbNailPhoto as binary,\n\t\tThumbnailPhotoFileName as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'query',\n\tstore: 'sqlserver',\n\tquery: 'select * from SalesLT.Product',\n\tisolationLevel: 'READ_UNCOMMITTED') ~> Product\nProduct sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '2. New_Branch',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true,\n\tpartitionFileNames:['Product.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tProductID,\n\t\tName,\n\t\tProductNumber,\n\t\tColor,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tSize,\n\t\tWeight,\n\t\tProductCategoryID,\n\t\tProductModelID,\n\t\tSellStartDate,\n\t\tSellEndDate,\n\t\tDiscontinuedDate\n\t),\n\tpartitionBy('hash', 1)) ~> CSV\nProduct sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'json',\n\tcontainer: 'dataflowdataset',\n\tfolderPath: '2. New_Branch',\n\tpartitionFileNames:['Product.json'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tProductID,\n\t\tName,\n\t\tProductNumber,\n\t\tColor,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tSize,\n\t\tWeight,\n\t\tProductCategoryID,\n\t\tProductModelID,\n\t\tSellStartDate,\n\t\tSellEndDate,\n\t\tDiscontinuedDate\n\t),\n\tpartitionBy('hash', 1)) ~> JSON"
+		}
+	}
+}

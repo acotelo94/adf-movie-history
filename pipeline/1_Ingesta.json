@@ -1,0 +1,169 @@
+{
+	"name": "1_Ingesta",
+	"properties": {
+		"activities": [
+			{
+				"name": "UltimaFechaEjecucion",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT Date\nFROM [dbo].[Watermark]\nwhere Id='CuponesProfiles'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_Watermark",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Dynamics_to_AVRO",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "UltimaFechaEjecucion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DynamicsSource",
+						"query": {
+							"value": "<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\">\n<entity name=\"plvd_cupon\">\n<attribute name=\"plvd_name\"/>\n<attribute name=\"plvd_emailorigen\"/>\n<attribute name=\"plvd_codigopostalid\"/>\n<attribute name=\"plvd_apellido1\"/>\n<attribute name=\"plvd_cuponname\"/>\n<attribute name=\"plvd_cuponid\"/>\n<attribute name=\"plvd_idprofile\"/>\n<order attribute=\"plvd_name\" descending=\"false\"/>\n<filter type=\"and\">\n<condition attribute=\"plvd_idprofile\" operator=\"not-null\"/>\n<condition attribute=\"overriddencreatedon\" operator=\"on-or-after\" value=\"@{activity('UltimaFechaEjecucion').output.firstRow.Date}\"/>\n</filter>\n</entity>\n</fetch>",
+							"type": "Expression"
+						}
+					},
+					"sink": {
+						"type": "AvroSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "AvroWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "plvd_name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "plvd_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_cuponname",
+									"type": "String"
+								},
+								"sink": {
+									"name": "plvd_cuponname",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_apellido1",
+									"type": "String"
+								},
+								"sink": {
+									"name": "plvd_apellido1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_codigopostalid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "plvd_codigopostalid",
+									"type": "Guid"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_cuponid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "plvd_cuponid",
+									"type": "Guid"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_idprofile",
+									"type": "String"
+								},
+								"sink": {
+									"name": "plvd_idprofile",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "plvd_emailorigen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "plvd_emailorigen",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_CuponesProfiles",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Avro_Cupones",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"UltimaModificacion": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Poc_Dynamics"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-19T20:11:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

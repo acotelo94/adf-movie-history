@@ -1,0 +1,82 @@
+{
+	"name": "Reprocesar_Citas_WhatsApp",
+	"properties": {
+		"activities": [
+			{
+				"name": "Update_Appointments",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "CommonDataServiceForAppsSource",
+						"query": "<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\">\r\n  <entity name=\"asyncoperation\">\r\n    <attribute name=\"asyncoperationid\" />\r\n    <attribute name=\"name\" />\r\n    <attribute name=\"regardingobjectid\" />\r\n    <attribute name=\"operationtype\" />\r\n    <attribute name=\"statuscode\" />\r\n    <attribute name=\"startedon\" />\r\n    <attribute name=\"statecode\" />\r\n    <order attribute=\"startedon\" descending=\"true\" />\r\n    <filter type=\"and\">\r\n      <condition attribute=\"startedon\" operator=\"last-x-hours\" value=\"1\" />\r\n      <condition attribute=\"name\" operator=\"like\" value=\"%Whatsapp[_]FrontClinica[_]Appointments%\" />\r\n      <condition attribute=\"statuscode\" operator=\"eq\" value=\"31\" />\r\n    </filter>\r\n    <link-entity name=\"pdw_appointment\" from=\"pdw_appointmentid\" to=\"regardingobjectid\" visible=\"false\" link-type=\"outer\" alias=\"Appointment\">\r\n      <attribute name=\"pdw_appointmentstatus\" />\r\n    </link-entity>\r\n  </entity>\r\n</fetch>"
+					},
+					"sink": {
+						"type": "CommonDataServiceForAppsSink",
+						"writeBatchSize": 1,
+						"writeBehavior": "upsert",
+						"ignoreNullValues": false,
+						"maxConcurrentConnections": 1
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "regardingobjectid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "pdw_appointmentid",
+									"type": "Guid"
+								}
+							},
+							{
+								"source": {
+									"name": "Appointment.pdw_appointmentstatus",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "pdw_appointmentstatus",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CRM_AsyncOperation",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "CRM_pdw_Appointments",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"lastSyncDate": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "VITALDENT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-09T18:16:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,130 @@
+{
+	"name": "Table_Copy_Table_AZSQL_ADSL",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_Table_AZSQL_ADSL",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Setea variable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "SalesLT.@{pipeline().parameters.TableName}"
+					},
+					{
+						"name": "Destination",
+						"value": "dataset/1. Move and transform activities/@{toUpper(variables('FieldName'))}.csv"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AZSQL_AWDWH_Table",
+						"type": "DatasetReference",
+						"parameters": {
+							"DataBaseName": {
+								"value": "@pipeline().parameters.DataBaseName",
+								"type": "Expression"
+							},
+							"TableName": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ADSL_azdl01_Table",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableName": {
+								"value": "@variables('FieldName')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Setea variable",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "FieldName",
+					"value": {
+						"value": "@concat(pipeline().parameters.TableName,'_',formatDateTime(utcnow(),'yyyyMMdd'))\n\n\n",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"DataBaseName": {
+				"type": "string",
+				"defaultValue": "azureAdventureWorksDW"
+			},
+			"TableName": {
+				"type": "String"
+			}
+		},
+		"variables": {
+			"FieldName": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "2. Move and transform activities"
+		},
+		"annotations": [
+			"Exportar tabla a CSV"
+		],
+		"lastPublishTime": "2022-01-15T18:22:08Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

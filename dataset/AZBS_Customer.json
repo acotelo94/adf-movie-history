@@ -1,0 +1,24 @@
+{
+	"name": "AZBS_Customer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LKS_Stge1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "1.PrimerDataFlow",
+				"container": "dataflowdataset"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

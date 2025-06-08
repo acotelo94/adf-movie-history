@@ -1,0 +1,215 @@
+{
+	"name": "STG_DIM_POLIZA_VIDA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "rgapocdatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id_Póliza",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Num_Póliza",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cod_Producto_Técnico",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Num_Certificado",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Num_Préstamo",
+				"type": "char"
+			},
+			{
+				"name": "Fecha_Efecto",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Fecha_Vencimiento",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Tipo_Incremento",
+				"type": "char"
+			},
+			{
+				"name": "Forma_Pago",
+				"type": "char"
+			},
+			{
+				"name": "Porcentaje_Incremento",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Descuento_Tarifa",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Descuento_OM",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Duración_Años_Extraprimas",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Tabla_Mortalidad_Segundo_Beneficiario",
+				"type": "char"
+			},
+			{
+				"name": "Num_Embargo_Pignoración",
+				"type": "char"
+			},
+			{
+				"name": "Tipo_Embargo_Pignoración",
+				"type": "char"
+			},
+			{
+				"name": "Porcentaje_Descuento_Colectivo",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Incremento_Salarial_Activos",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Incremento_Salarial_Pasivos",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Incremento_Seguridad_Social_Activos",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Incremento_Seguridad_Social_Pasivos",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Incremento_IPC_Pasivos",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Porcentaje_Incremento_IPC_Activos",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Indicador_Pensiones",
+				"type": "varchar"
+			},
+			{
+				"name": "Fondo_Plan",
+				"type": "varchar"
+			},
+			{
+				"name": "Cod_Cuenta_Cliente",
+				"type": "varchar"
+			},
+			{
+				"name": "Indicador_Inversion_Casada",
+				"type": "varchar"
+			},
+			{
+				"name": "Num_Póliza_Grupo",
+				"type": "varchar"
+			},
+			{
+				"name": "Origen_Emision",
+				"type": "varchar"
+			},
+			{
+				"name": "Importe_Calendario",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "Num_Participe",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cod_Producto_Comercial",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Duracion_Años",
+				"type": "char"
+			},
+			{
+				"name": "Duracion_Prima",
+				"type": "char"
+			},
+			{
+				"name": "Duracion_PU",
+				"type": "varchar"
+			},
+			{
+				"name": "Fecha_Renovacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Fecha_Solicitud",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Cod_Cuenta_SEPA",
+				"type": "varchar"
+			},
+			{
+				"name": "Ind_Tarifa_Plana",
+				"type": "varchar"
+			},
+			{
+				"name": "Codigo_Producto",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "stg",
+			"table": "DW_TB_DIM_Póliza_Vida"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

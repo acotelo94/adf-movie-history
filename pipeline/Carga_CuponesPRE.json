@@ -1,0 +1,52 @@
+{
+	"name": "Carga_CuponesPRE",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ingesta",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "1_Ingesta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingesta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "2_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Poc_Dynamics"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-19T20:21:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

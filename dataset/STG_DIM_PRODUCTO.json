@@ -1,0 +1,67 @@
+{
+	"name": "STG_DIM_PRODUCTO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "rgapocdatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id_Producto",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cod_Producto_Técnico",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cod_Línea_Negocio",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Línea_Negocio",
+				"type": "varchar"
+			},
+			{
+				"name": "Cod_Producto_Comercial",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Producto_Técnico",
+				"type": "varchar"
+			},
+			{
+				"name": "Producto_Comercial",
+				"type": "varchar"
+			},
+			{
+				"name": "Indicador_C_Fallecimiento_R_Unico",
+				"type": "char"
+			},
+			{
+				"name": "Indicador_Tipo_Renovacion",
+				"type": "varchar"
+			},
+			{
+				"name": "Cod_Base_Tecnica",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Codigo_Producto",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "stg",
+			"table": "DW_TB_DIM_Producto"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Snowflake_CentrosCRM",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake_Trial",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "PUBLIC",
+			"table": "CENTROSDYNAMICS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

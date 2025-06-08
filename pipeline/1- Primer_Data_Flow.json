@@ -1,0 +1,37 @@
+{
+	"name": "1- Primer_Data_Flow",
+	"properties": {
+		"activities": [
+			{
+				"name": "DataFlow01",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "1-Primer_Data_Flow",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "3. DataFlow"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-15T19:55:59Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

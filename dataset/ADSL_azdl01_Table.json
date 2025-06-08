@@ -1,0 +1,36 @@
+{
+	"name": "ADSL_azdl01_Table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServices_ADLS_azdl1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TableName": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "2. Move and transform activities"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{toUpper(dataset().TableName)}.csv",
+					"type": "Expression"
+				},
+				"folderPath": "1. Move and transform activities",
+				"fileSystem": "dataset"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

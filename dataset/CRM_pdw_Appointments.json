@@ -1,0 +1,16 @@
+{
+	"name": "CRM_pdw_Appointments",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "VitaldentPRO",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "pdw_appointment"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

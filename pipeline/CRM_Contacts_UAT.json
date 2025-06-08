@@ -1,0 +1,122 @@
+{
+	"name": "CRM_Contacts_UAT",
+	"properties": {
+		"activities": [
+			{
+				"name": "Contacts_to_UAT",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "CommonDataServiceForAppsSource",
+						"query": "<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\">\n  <entity name=\"contact\">\n    <attribute name=\"contactid\" />\n    <attribute name=\"pdw_patientid\" />\n    <attribute name=\"pdw_goldencontactid\" />\n\t    <attribute name=\"pdw_clinicaid\" />\n          <attribute name=\"pdw_version\" />\n          <attribute name=\"pdw_patienttype\" />\n          \n\t<all-attributes/>\n    <filter type=\"and\">\n      <condition attribute=\"statecode\" operator=\"eq\" value=\"0\" />\n    </filter>\n    <link-entity name=\"pdw_clinic\" from=\"pdw_clinicid\" to=\"pdw_clinicaid\" visible=\"false\" link-type=\"outer\" alias=\"Clinic\">\n      <attribute name=\"pdw_id_clinic\" />\n    </link-entity>\n  </entity>\n</fetch>"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"contactid"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Clinic.pdw_id_clinic",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Clinic.pdw_id_clinic",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "contactid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "contactid",
+									"type": "Guid"
+								}
+							},
+							{
+								"source": {
+									"name": "pdw_goldencontactid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "pdw_goldencontactid",
+									"type": "Guid"
+								}
+							},
+							{
+								"source": {
+									"name": "pdw_patientid",
+									"type": "String"
+								},
+								"sink": {
+									"name": "pdw_patientid",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "pdw_version",
+									"type": "String"
+								},
+								"sink": {
+									"name": "pdw_version",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "pdw_patienttype",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "pdw_patienttype",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "VD_CRM_UAT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "azdbdev",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "VITALDENT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-09-14T19:00:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

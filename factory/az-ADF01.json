@@ -1,0 +1,9 @@
+{
+	"name": "az-ADF01",
+	"location": "francecentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "50e5ff76-eee2-4047-bff1-6d7060847730",
+		"tenantId": "0928edbc-6c95-443b-ac07-bc039c56e6b6"
+	}
+}

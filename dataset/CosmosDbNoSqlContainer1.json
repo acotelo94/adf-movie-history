@@ -1,0 +1,26 @@
+{
+	"name": "CosmosDbNoSqlContainer1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CosmosDbNoSql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"apellidos": {
+					"type": "string"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": "user"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

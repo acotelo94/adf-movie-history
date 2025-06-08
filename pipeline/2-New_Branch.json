@@ -1,0 +1,37 @@
+{
+	"name": "2-New_Branch",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_Product",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "2-New_branch",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "3. DataFlow"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-16T11:21:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,28 @@
+{
+	"name": "process_movie_history",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "process_movie_history",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"environment": "production",
+					"file_date": "2024-12-30"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2025-06-07T18:52:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

@@ -1,0 +1,45 @@
+{
+	"name": "DeleteAsyncOperationCRM",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CRM_AsyncOperation",
+						"type": "DatasetReference"
+					},
+					"name": "AsyncOperationBase"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CRM_AsyncOperation",
+						"type": "DatasetReference"
+					},
+					"name": "Delete"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     query: '<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\" >\\n  <entity name=\"asyncoperation\" >\\n    <attribute name=\"asyncoperationid\" />\\n    <order attribute=\"startedon\" descending=\"true\" />\\n    <filter type=\"and\" >\\n      <condition attribute=\"statecode\" operator=\"eq\" value=\"3\" />\\n      <condition attribute=\"completedon\" operator=\"olderthan-x-days\" value=\"5\" />\\n    </filter>\\n  </entity>\\n</fetch>') ~> AsyncOperationBase",
+				"AsyncOperationBase alterRow(deleteIf(1==1)) ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:true,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Delete"
+			]
+		}
+	}
+}

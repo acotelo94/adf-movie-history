@@ -1,0 +1,153 @@
+{
+	"name": "CSV_Transaccion_produccion_vida",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "pocRgaAdf01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DW_TB_HCH_TRANSACCION_PRODUCCION_VIDA_202407030843.csv",
+				"fileSystem": "initialload"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Id_Fecha",
+				"type": "int"
+			},
+			{
+				"name": "Id_Fecha_Efecto",
+				"type": "String"
+			},
+			{
+				"name": "Id_Tipo_Transacción",
+				"type": "String"
+			},
+			{
+				"name": "Id_Póliza",
+				"type": "String"
+			},
+			{
+				"name": "Id_Asegurado",
+				"type": "String"
+			},
+			{
+				"name": "Id_Tomador",
+				"type": "String"
+			},
+			{
+				"name": "Id_Mediador_Gestor",
+				"type": "String"
+			},
+			{
+				"name": "Id_Producto",
+				"type": "String"
+			},
+			{
+				"name": "Id_Mediador_Préstamo",
+				"type": "String"
+			},
+			{
+				"name": "Id_Recibo",
+				"type": "String"
+			},
+			{
+				"name": "Id_Aportacion",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Prima_Comercial",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Comisión_Mediador",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Descuento_OM",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Prima_Neta",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Impuestos",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Impuestos_CLEA",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Impuestos_Arbitrio",
+				"type": "String"
+			},
+			{
+				"name": "Id_Ciclo_ETC",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Capital",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Capital_Final",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Impuestos_Consorcio",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Impuestos_IPS",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Extraprima_Sobreprima",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Total_Recibo",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Descuento_Directo",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Prima_Descontada",
+				"type": "String"
+			},
+			{
+				"name": "Num_Orden_Movimiento",
+				"type": "String"
+			},
+			{
+				"name": "Porcentaje_Comisión_Mediador",
+				"type": "String"
+			},
+			{
+				"name": "Num_Suplemento",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Prima_Total",
+				"type": "String"
+			},
+			{
+				"name": "Importe_Comision_Transferencia",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

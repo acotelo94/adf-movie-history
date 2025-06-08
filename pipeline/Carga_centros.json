@@ -1,0 +1,78 @@
+{
+	"name": "Carga_centros",
+	"properties": {
+		"activities": [
+			{
+				"name": "Carga_centros",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SnowflakeV2Source",
+						"query": "SELECT Nombre FROM Centros",
+						"exportSettings": {
+							"type": "SnowflakeExportCopyCommand"
+						}
+					},
+					"sink": {
+						"type": "CommonDataServiceForAppsSink",
+						"writeBatchSize": 10,
+						"writeBehavior": "upsert",
+						"ignoreNullValues": false,
+						"alternateKeyName": "axz_centroid",
+						"bypassPowerAutomateFlows": false
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "Adftempstg",
+							"type": "LinkedServiceReference"
+						},
+						"path": "snowflake-temp/temp02.csv"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "NOMBRE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "axz_name",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Snowflake_Centros",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Centros",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "CIRSA"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-05-28T07:06:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

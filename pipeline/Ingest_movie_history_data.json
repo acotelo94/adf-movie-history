@@ -1,0 +1,461 @@
+{
+	"name": "Ingest_movie_history_data",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Folder Details",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_movie_history_bronze",
+						"type": "DatasetReference",
+						"parameters": {
+							"ds_file_date": {
+								"value": "@pipeline().parameters.file_date",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "JsonReadSettings"
+					}
+				}
+			},
+			{
+				"name": "If Folder Exists",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get Folder Details",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('Get Folder Details').output.exists",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Send Email error",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/utils/02.mail_error"
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "01 Ingest_movie_file",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/01.Ingestion_file_movie_CSV",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "02 Ingest Language File",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/02.Ingestion_file_language_CSV",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "03 Ingest File Genre",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/03.Ingestion_file_genre_CSV",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "04 Ingest File Country",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/04.Ingestion_file_country_JSON",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "05 Ingest File Person",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/05.Ingestion_file_person_JSON",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "06 Ingest Movie Genre",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/06.Ingestion_file_movie_genre_JSON",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "07 Ingest Movie Cast",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/07.Ingestion_file_movie_cast_JSON",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "08 Ingest File Language Role",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/08.Ingestion_file_language_role_JSON",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "09 Ingest Production Company",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/09.Ingestion_folder_production_company_CSV",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "10 Ingest Movie Company",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/10.Ingestion_folder_movie_company_CSV",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "11 Ingest Movie Languages",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/11.Ingestion_folder_movie_languages_JSON",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "12 Ingest Production Country",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/a.cotelo@axazure.com/databricks-course/movie-history/Ingestion/12.Ingestion_folder_production_country_JSON",
+								"baseParameters": {
+									"environment": {
+										"value": "@pipeline().parameters.environment",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@formatDateTime(pipeline().parameters.file_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LKS_Databricks",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"environment": {
+				"type": "string",
+				"defaultValue": "production"
+			},
+			"file_date": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Curso_DATABRICKS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-06-07T17:06:02Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
